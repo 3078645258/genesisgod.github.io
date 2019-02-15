@@ -7,15 +7,86 @@
 	function init(){
 		datatable=$("#datatable");
 	    //显示日志数据
-        //判断IP
-		showAllData();
-        
-		var obj = null;
-            obj=new ActiveXObject("rcbdyctl.Setting");
-        var rslt = obj.GetIPAddress;
-        if (rslt == "192.168.1.106") {
-            saw = true;
-        }
+	    //判断IP
+		var k = 1,s;
+		db.transaction(function(tx){
+		    //创建表
+		    tx.executeSql('create table if not exists log1(id INTEGER PRIMARY KEY AUTOINCREMENT,content text,logDate integer,proName textarea)',[]);
+		    //查询日志
+		    tx.executeSql('select * from log1 order by logDate',[],function(tx,ts){
+		        s = ts.rows.length;
+		        showAllData();
+		        if (s < k) {
+		            var logDate1, proName1, content1;
+		            logDate1 = "2019-02-14";
+		            proName1 = "C++";
+		            content1 =
+                        "What a wonderful day!" + '\n' +
+
+                "Great！" + '\n' +
+
+                "今天，" + '\n' +
+
+                "本 站 终 于 建 站 了！" + '\n' +
+
+                "————————————————————" + '\n' +
+                "欢 迎 各 位 大 佬 有 空 时 多 多 光 顾 本 站 哦~" + '\n' +
+                "————————————————————" + '\n' +
+
+                "手 动 分 割（嘻嘻嘻嘻嘻~）" + '\n' +
+
+                "好 吧。" + '\n' +
+
+                "就 这 样 了。" + '\n' +
+
+                "记 录 下这 美 好  的 一 天。" + '\n' +
+
+                "以 后 会 一 段 时 间 更 新 一 次 的。" + '\n' +
+
+                "溜 了 溜 了" + '\n' +
+                "。。。。。" + '\n' +
+                "。。。。。。。。" + '\n' +
+                "。。。。。。。。。。。" + '\n' +
+                "。。。。。。。。。。。。。。" + '\n' +
+                "。。。。。。。。。。。。。。。。。"
+		            ;
+		            addData(logDate1, proName1, content1);
+		            showAllData();
+		        }
+		    });
+		});
+	}
+	function inline() {
+	    var logDate = "2019-02-14";
+	    var proName = "C++";
+	    var content = "。。。。。。。。。。。。。。。。。";
+	    var logId = parseInt($('#logId').val());
+	    var message = "";
+	    //保存时校验
+	    if (logDate == "") {
+	        message += "请选择日志日期!\n";
+	    }
+	    if (proName == "") {
+	        message += "请选择项目名称!\n";
+	    }
+	    if (content == "") {
+	        message += "请输入日志内容!\n";
+	    }
+	    if (message != "") {
+	        alert(message);
+	        return false;
+	    }
+	    if (flag) {
+	        addData(logDate, proName, content);
+
+
+	    } else {
+	        updateData(logId, logDate, proName, content);
+	    }
+	    clearData();
+	    showAllData();
+	    //延迟加载统计图
+	    setTimeout(function () { drawTable(); }, 230);
 	}
 	
 	
@@ -113,7 +184,6 @@
 		//alert("新增一条数据到数据库");
 		db.transaction(function(tx){
 			tx.executeSql('insert into log1(content,logDate,proName) values(?,?,?)',[content,logDate,proName],function(tx,rs){
-				alert("成功保存数据！！！");
 			},function(tx,error){
 				alert(error.source+"::"+error.message);
 			});
