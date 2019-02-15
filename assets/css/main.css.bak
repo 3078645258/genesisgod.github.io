@@ -1,0 +1,84 @@
+	
+	
+	/****日志管理界面样式*********/
+	p{
+		text-align:left;
+		color:#33ccff;
+		font-family:"微软雅黑";
+		font-size:23px;
+		font-weight:bold;
+		margin:20px 5px;
+	}
+
+	table{
+		background-color:#ccffcc;
+		font-family:"微软雅黑";
+		font-size:16px;
+	}
+
+	input{
+		margin-left:1px;
+	}	
+
+	/**表格样式**/
+	.odd{
+		background-color:#ffffff;
+	}
+	.even{
+		background-color:#ccffcc;
+	}
+	.th{
+		background-color:#33ccff;
+	}
+	.hover{
+		background-color:#ffccff;
+	}
+	.click{
+		background-color:#ff9b6a;
+	}
+
+	#divBtn{
+		text-align:center;
+	}
+
+	/**操作按钮样式*/
+	.button
+	{	
+		width:58px;
+		height:28px;
+		font-family:"微软雅黑";
+		font-size:16px;
+		border-radius: 6px; 
+		background:#ff9b6a;
+		margin:5px 26px;
+	}
+
+	#myCanvas1{
+		border:1px solid #d3d3d3;
+		background:#ffffff;
+		margin:20px 15%;
+	}
+
+	#span{
+		width:33px;
+		margin-left:1px
+	}
+
+	#select{
+		width:53px;
+		margin-left:1px;
+	}
+	#content{
+		width:70%;
+		height:60px
+	}
+
+
+/****登录界面样式*********/
+#loginBody{background-color:#ccffdd}
+#login{width:640px;height:380px;background:url(../images/login.jpg) no-repeat;margin:110px auto 0px;boder:10x solid;border-radius:8px}
+#login #login1{width:550px;height:270px;padding:90px;border-radius:20px}
+#login #login1 p{border 1px solid red;margin-bottom:30px;}
+#login #login1 p .login_text{width:300px;height:40px;background:#fff;border:0px;color:#ddd;font-size:18px;font-family:"微软雅黑";text-indent:10px;}
+#login #login1 p .login_btn{width:145px;height:45px;background:#33ccff;margin-left:248px;font-size:23px;font-weight:bold;border:1px solid #3366ff;border-radius:5px}
+
