@@ -4,6 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
     <meta charset="utf-8" />
     <meta charset="gb2312">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
@@ -25,7 +26,6 @@
     <!-- CUSTOM STYLE CSS -->
     <link href="assets/css/style.css" rel="stylesheet" />
     <!-- GOOGLE FONT -->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -33,132 +33,21 @@
     <![endif]-->
     <script src="assets/js/main.js"></script>
     <script src="assets/js/jquery.js"></script>
-    <script>
-        function Loadtext() {
-            db.transaction(function (tx) {
-                //创建表
-                tx.executeSql('create table if not exists log1(id INTEGER PRIMARY KEY AUTOINCREMENT,content text,logDate integer,proName textarea)', []);
-                //查询日志
-                tx.executeSql('select * from log1 order by logDate', [], function (tx, ts) {
-                    var massageid = $("#datatable .click  input").val();
-                    for (var i = 1; i <= ts.rows.length; i++) {
-                        if (i != massageid)
-                            document.getElementById("mass" + i).style.display = "none";
-                        document.getElementById("mass" + massageid).style.display = "block";
-                    }
-                    massi = massageid;
-                });
-            });
-            getContentSize();
-        }
-function getContentSize() {
-            var wh = document.documentElement.clientHeight;
-            var eh = 300;
-            ch = (wh * 2) + "px";
-            document.getElementById( "mass"+massi ).style.height = ch;
-        }
-    </script>
+    
 </head>
 
-<script type="text/javascript">
-
-        function initDatabase() {//初始化数据库
-            var db = getCurrentDb();
-            if(!db) {
-                alert("您的浏览器不支持HTML5");
-                return;
-            }
-
-
-            db.transaction(function (trans) {
-                trans.executeSql("create table if not exists Demo(uName text null,title text null,words text null)", [], function (trans, result) {
-
-                }, function (trans, message) {
-                    alert(message);
-                });
-            }, function (trans, result) {
-            }, function (trans, message) {
-            });
-        }
-
-        $(function () {
-
-            initDatabase();
-
-            $("#btnSave").click(function () {
-                var txtName = $("#txtName").val();
-                var txtEmail = $("#txtEmail").val();
-                var txtWords = $("#txtWords").val();
-
-                var db = getCurrentDb();
-
-                //插入数据
-                db.transaction(function (trans) {
-
-                    trans.executeSql("insert into Demo(uName,title,words) values(?,?,?) ", [txtName, txtEmail, txtWords], function (ts, data) {
-
-                    }, function (ts, message) {
-                        alert(message);
-                    });
-
-                });
-                showAllTheData();
-
-            });
-        });
-
-        function getCurrentDb() {
-            //打开数据库，或者直接连接数据库参数：数据库名称，版本，概述，大小
-            var db = openDatabase("myDb", "1.0", "it's to save demo data!", 1024 * 1024); ;
-            return db;
-
-        }
-
-        function showAllTheData() {
-            $("#tblData").empty();
-            var db = getCurrentDb();
-
-            db.transaction(function (trans) {
-                trans.executeSql("select * from Demo ", [], function (ts, data) {
-                    if (data) {
-                        for (var i = 0; i < data.rows.length; i++) {
-                            appendDataToTable(data.rows.item(i));//获取某行数据的json对象
-                        }
-                    }
-                }, function (ts, message) {
-                    alert(message);
-                    var tst = message;
-                });
-
-            });
-
-            function appendDataToTable(data) {//将数据展示到表格里面
-                //uName,title,words
-                var txtName = data.uName;
-                var txtTitle = data.title;
-                var words = data.words;
-
-                var strHtml = "";
-                strHtml += "<tr>";
-                strHtml += "<td>" + txtName + "</td>";
-                strHtml += "<td>" + txtTitle + "</td>";
-                strHtml += "<td>" + words + "</td>";
-                strHtml += "</tr>";
-                $("#tblData").append(strHtml);
-            }
-        }
-</script>
 <body data-spy="scroll" data-target="#menu">
     <div class="navbar navbar-inverse navbar-fixed-top scrollclass" id="menu">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <button type="button" >
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#"><img src="assets/img/logo180-50.png" alt="" style="max-height:40px" />
-                                                 <img src="assets/img/writer.png" alt="" style="max-height:60px" />
+                <a class="navbar-brand" href="#">
+                    <img src="assets/img/logo180-50.png" alt="" style="max-height:40px" />
+                    <img src="assets/img/writer.png" alt="" style="max-height:60px" />
                 </a>
             </div>
             <div class="navbar-collapse collapse">
@@ -170,7 +59,6 @@ function getContentSize() {
                     <li><a href="#money">资 助</a></li>
                 </ul>
             </div>
-
         </div>
     </div>
     <!--NAVBAR SECTION END-->
@@ -216,9 +104,10 @@ function getContentSize() {
 
                     </p>
                     <br />
-                    <a href="#about" class="btn  btn-lg custom-btn-1"><i class="fa fa-home"></i>ABOUT </a>
-                    <a href="#services" class="btn  btn-lg custom-btn-1"><i class="fa fa-comments-o"></i> SERVICES </a>
-                    <a href="#contact" class="btn btn-lg custom-btn-1"><i class="fa fa-globe"></i> CONTACT </a>
+                    <a href="#about" class="btn  btn-lg custom-btn-1"><i class="fa fa-home"></i>关 于 我 </a>
+                    <a href="#services" class="btn  btn-lg custom-btn-1"><i class="fa fa-comments-o"></i> 日 志 </a>
+                    <a href="#contact" class="btn btn-lg custom-btn-1"><i class="fa fa-globe"></i> 留 言 </a>
+                    <a class="btn btn-lg custom-btn-1"><i class="fa fa-globe"></i> 资 助 </a>
                 </div>
             </div>
         </div>
@@ -361,83 +250,46 @@ function getContentSize() {
     <!--日志如下-->
     <section id="services">
         <div class="container">
-            <div class="row">
+            <div id="timeLine">
+
+                <ul id="yearList">
+                    <li class="year-active">2,14,2019<i class="year-dot"></i></li>
+                    <li>2,19,2019<i class="year-dot"></i></li>
+                </ul>
                 <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2  text-center">
                     <h2> 日 志</h2>
                     <p>
-                        以 下 为 我 的 所 有 日 志：
-
+                        记   录   学   习   的   点   滴  ~
                     </p>
                 </div>
-            </div>
-            <!--日志系统-->
-            <body onload="init();">
-                <div id="btns" style="display:none">
-                    <table width="90%" border="1" cellspacing="0" cellpadding="0" align="center">
+                <div class="dotted-line"></div>
 
-                        <tr>
-                            <td width="40%">
-                                日 志 日 期:&nbsp;<input id="logDate" type="date" autofocus />
-                            </td>
-                            <td width="30%">
-                                项 目 名 称:<input type="hidden" id="logId" value="1" />
-                                <select id="proName" type="text" />
-                                <option value="">--------请选择--------</option>
-                                <option value="C++">C++</option>
-                                <option value="html5">html5</option>
-                                <option value="Unity">Unity</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="4">
-                                日 志 内 容:
-                                <textarea style=" font-size:17px; color:#000" id="content" type="text"  placeholder="请输入日志内容" autofocus />
-                                </textarea>
-                            </td>
-                        </tr>
+                <div id="cList">
+                    <a id="btnLeft">&lt;</a>
+                    <div style="width: 850px;margin: 0 auto; overflow: hidden;height:3000px">
+                        <ul id="cUl">
+                            <li>
+                                <span class="li-tit">1</span>
+                                <div class="container-li">
+                                    <p style="font-size:14px"> 发表日期：2019年2月14日（寒假）<br /> 阅读次数:</p>
+                                    <iframe src="massage/1.html" frameBorder="0" width="900" scrolling="no" height="9000"></iframe>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="li-tit">2</span>
+                                <div class="container-li">
+                                    <p style="font-size:14px"> 发表日期：2019年2月19日（寒假(last day)）<br /> 阅读次数:</p>
+                                    <iframe src="massage/2.html" frameBorder="0" width="900" scrolling="no" height="9000"></iframe>
+                                </div>
+                            </li>
+                        </ul>
 
-                        <tr>
-                            <td colspan="4" align="center">
-                                <input class="button" type="button" value="保存" onclick="saveData();" />
-                                <input class="button" type="button" value="重置" onclick="clearData();" />
-                            </td>
-                        </tr>
-                    </table>
-                    <!--操作日志按钮-->
-                    <div id="divBtn" width="90%">
-
-                        <input class="button" type="button" value="新增" onclick="clearData();" />
-                        <input class="button" type="button" value="修改" onclick="editData();" />
-                        <input class="button" type="button" value="删除" onclick="delData();" />
                     </div>
-                </div>
-
-                <hr>
-
-                <!--查询日志列表显示-->
-                <table id="datatable" border="1" cellspacing="0" width="90%" align="center"></table>
-                <hr>
-            </body>
-            <!--日志系统-->
-            <div class="row ">
-                <div>
-                    <div class="media">
-                        <div class="pull-left">
-                            <i class="fa fa-lock fa-4x "></i>
-                        </div>
-                        <div class="media-body">
-                            <button type="submit" class="btn custom-btn-1 btn-block" id="btnLoadtxt" onclick="Loadtext();">
-                                提 交 选 择
-                            </button>
-                            <h3 class="media-heading">当 前 查 看 的 日 志：</h3>
-                            <iframe id="mass1" style="display:none;height:0px;width:1000px" src="massage/1.html" frameBorder="0" scrolling="no" ></iframe>  
-                        </div>
-                    </div>
+                    <a id="btnRight">&gt;</a>
                 </div>
             </div>
-        </div>
-    </section>
+            <!------>
+</section>
     <!--SERVICES SECTION END-->
     <hr />
     <!--如下-->
@@ -463,7 +315,7 @@ function getContentSize() {
                         </div>
                         <label>你的 邮箱</label>
                         <div class="form-group">
-                            <input style="color:#fff"type="text" class="form-control" id="txtEmail" required="required" />
+                            <input style="color:#fff" type="text" class="form-control" id="txtEmail" required="required" />
                         </div>
                         <label>留言 内容</label>
                         <div class="form-group">
@@ -499,7 +351,7 @@ function getContentSize() {
                 </div>
             </div>
         </div>
-</section>
+    </section>
     <!--CONTACT SECTION END-->
     <div class="footer">     本 站 建 于 &copy; 2019.   Genesis God/ <a href="http://wpa.qq.com/msgrd?v=3&uin=3078645258&site=qq&menu=yes" target="_blank" title="Q Q"> 联 系 作 者 </a></div>
 
@@ -513,7 +365,24 @@ function getContentSize() {
     <script src="assets/plugins/jquery.easing.min.js"></script>
     <!-- CUSTOM SCRIPTS  -->
     <script src="assets/js/custom.js"></script>
-    <script type="text/javascript" src="javascripts/FileSaver.min.js" charset="utf-8"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery-timeLine.js"></script>
+    <script type="text/javascript">
+$(function(){
+	$("#timeLine").timeLine({
+		w:850  //每一个li的宽度
+//            btnPrev:"#btnLeft",      //上一个按钮
+//            btnNext: "#btnRight",  //下一个按钮
+//            dateBox:"#yearList", //日期的ul盒子
+//            dateArr: "#yearList li", //保存每一个日期的数组
+//            conBox:"#cUl",  //保存切换内容的ul盒子
+//            conArr:"#cUl li" //保存每一个内容的数
+	});
+});
+    </script>
+
 </body>
 
 </html>
